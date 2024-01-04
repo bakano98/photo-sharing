@@ -29,9 +29,10 @@ const API = {
       throw error;
     }
   },
-  moveFiles: async (data) => {
+  moveFiles: async (data, headers) => {
     try {
-      const response = await api.post("/files/move-files", data);
+      const response = await api.post("/files/move-files", data, { headers });
+      console.log(response);
       return response.data;
     } catch (error) {
       throw error;
@@ -41,7 +42,6 @@ const API = {
   authAccessCode: async (data) => {
     try {
       const response = await api.post("/auth", data);
-      console.log(response);
       return response.data;
     } catch (error) {
       throw error;

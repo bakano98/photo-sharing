@@ -6,7 +6,7 @@ export const SelectionWrapper = ({ children }) => {
   const [selection, setSelection] = useState([]);
 
   const updateSelection = (newSelection) => {
-    if (selection.length == 0) {
+    if (selection.length === 0) {
       setSelection([...selection, newSelection]);
     } else {
       if (selection.includes(newSelection)) {

@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from "react";
 import FileDisplay from "./FileDisplay";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useSelection } from "../context/SelectionWrapper";
+import { useAuth } from "../context/AuthWrapper";
 import ConfirmButton from "../components/ConfirmButton";
 import "./PhotosView.css"; // Import the updated CSS file for styling
+import API from "../api";
 
 const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
+  const navigate = useNavigate();
   const { selection, resetSelection } = useSelection();
+  const { user } = useAuth();
   const [toggle, setToggle] = useState(false);
-  const handleConfirmation = () => {
-    console.log(selection);
+  const handleConfirmation = async () => {
+    if (selection.length <= 0) {
+      alert("Please select 1 or more photos!");
+      return;
+    }
+
+    const headers = { accesscode: user.code, email: user.email };
+    const data = { isSelected: isSelect, selection: selection };
+    const resp = await API.moveFiles(data, headers);
+
+    if (resp.success) {
+      isSelect
+        ? alert("Successfully removed from Selected Photos")
+        : alert("Successfully moved to Selected Photos");
+    } else {
+      alert("Encountered an error - please try again.");
+    }
+    navigate("../");
   };
 
   useEffect(() => {
@@ -21,7 +41,7 @@ const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
     resetSelection();
   };
 
-  if (accessibleFolders == "") {
+  if (accessibleFolders === "") {
     return <Navigate to="/view" />;
   }
 
@@ -43,6 +63,7 @@ const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
       <ConfirmButton
         resetSelection={handleReset}
         handleConfirmation={handleConfirmation}
+        msg={isSelect ? "remove" : "select"}
       />
     </div>
   );

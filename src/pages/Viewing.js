@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, Route, Routes } from "react-router-dom";
+import { useNavigate, Route, Routes } from "react-router-dom";
 import MainPhotosView from "./MainPhotosView";
 import FolderView from "./FolderView";
 import { Typography } from "antd";
 import { useAuth } from "../context/AuthWrapper";
-import { useSelection } from "../context/SelectionWrapper";
 import API from "../api";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -14,7 +13,6 @@ const { Title } = Typography;
 
 export const Viewing = () => {
   const navigate = useNavigate();
-  const { selection, resetSelection } = useSelection();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState("");
@@ -26,10 +24,6 @@ export const Viewing = () => {
   const getInfo = async () => {
     const res = await API.getUser({ code: accessCode, email: email });
     setDetails(res.data);
-  };
-
-  const handleSubmit = () => {
-    console.log(selection);
   };
 
   const getAccessibleFolders = async () => {
@@ -81,7 +75,7 @@ export const Viewing = () => {
                 />
               </NavIcon>
               <NavText>Folders</NavText>
-              {accessibleFolders == "" ? (
+              {accessibleFolders === "" ? (
                 <></>
               ) : (
                 accessibleFolders.map((folderName) => (

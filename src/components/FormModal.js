@@ -32,7 +32,7 @@ const FormModal = () => {
     } else {
       if (response.status === 500) {
         alert("Server is currently down -- sorry for any inconvenience.");
-      } else if (response.message == "pending") {
+      } else if (response.message === "pending") {
         alert("Your application is pending. Please wait");
       } else {
         alert(

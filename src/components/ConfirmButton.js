@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Space } from "antd";
 
-const ConfirmButton = ({ resetSelection, handleConfirmation }) => {
+const ConfirmButton = ({ resetSelection, handleConfirmation, msg }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -32,7 +32,7 @@ const ConfirmButton = ({ resetSelection, handleConfirmation }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <p>Are you sure you want to select these photos for editing?</p>
+        <p>Are you sure you want to {msg} these photos for editing?</p>
       </Modal>
     </Space>
   );

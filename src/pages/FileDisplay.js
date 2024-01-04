@@ -37,9 +37,10 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
         setImageURL(imageURL);
       })
       .catch((error) => {
+        setImageURL("");
         console.error("Error fetching image:", error);
       });
-  }, []);
+  }, [isSelect]);
 
   useEffect(() => {
     setCheck(false);
@@ -58,14 +59,14 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
         }}
         onClick={() => {
           setCheck(!check);
-          updateSelection(fileName);
+          updateSelection(`${folderName}/${fileName}`);
         }}
       >
         <img
           height="200"
           width="300"
           src={imageURL}
-          alt="Image"
+          alt=""
           style={{ cursor: "pointer" }}
         />
         <Checkbox checked={check} style={{ marginTop: "8px" }}></Checkbox>
