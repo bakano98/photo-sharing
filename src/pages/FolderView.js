@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button } from "antd";
+import { Typography, Button, Row, Col } from "antd";
 import { Navigate } from "react-router-dom";
 import FileDisplay from "./FileDisplay";
 
 const { Title } = Typography;
 
-const FolderView = ({ accessible }) => {
-  const [isSelected, setIsSelected] = useState(true);
-
+// setRenderCallback is here in case we want to allow for choosing photos here. By right, we should.
+const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
+  const [isSelected, setIsSelected] = useState(false);
+  const [display, setDisplay] = useState(accessible);
   useEffect(() => {
-    console.log("refresh");
+    if (isSelected) {
+      setDisplay(selectedAccessible);
+    } else {
+      setDisplay(accessible);
+    }
   }, [isSelected]);
 
   if (accessible === "") {
@@ -22,23 +27,33 @@ const FolderView = ({ accessible }) => {
   const toggleSelection = () => {
     setIsSelected(!isSelected);
   };
-
+  console.log(display[folderName]);
   return (
-    <div>
+    <div
+      style={{ textAlign: "center", position: "relative", margin: "0 250px" }}
+    >
       <Title level={3}>
         Showing {isSelected ? "selected" : "remaining"} photos in {folderName}:
       </Title>
       <Button type="primary" onClick={() => toggleSelection()}>
         Toggle Selection
       </Button>
-      {accessible[folderName].map((file) => (
-        <FileDisplay
-          key={file}
-          folderName={folderName}
-          fileName={file}
-          isSelect={isSelected}
-        />
-      ))}
+      <Row gutter={[16, 16]} justify="center">
+        {display[folderName].length === 0
+          ? null
+          : display[folderName].map((file) => {
+              console.log(file);
+              return (
+                <Col key={file}>
+                  <FileDisplay
+                    folderName={folderName}
+                    fileName={file}
+                    isSelect={isSelected}
+                  />
+                </Col>
+              );
+            })}
+      </Row>
     </div>
   );
 };

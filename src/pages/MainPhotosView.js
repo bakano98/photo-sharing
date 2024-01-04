@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FileDisplay from "./FileDisplay";
+import { Row, Col } from "antd";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useSelection } from "../context/SelectionWrapper";
 import { useAuth } from "../context/AuthWrapper";
@@ -7,7 +8,12 @@ import ConfirmButton from "../components/ConfirmButton";
 import "./PhotosView.css"; // Import the updated CSS file for styling
 import API from "../api";
 
-const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
+const MainPhotosView = ({
+  accessibleFolders,
+  accessible,
+  isSelect,
+  setRenderCallback,
+}) => {
   const navigate = useNavigate();
   const { selection, resetSelection } = useSelection();
   const { user } = useAuth();
@@ -30,6 +36,7 @@ const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
       alert("Encountered an error - please try again.");
     }
     navigate("../");
+    setRenderCallback(true);
   };
 
   useEffect(() => {
@@ -46,27 +53,33 @@ const SelectedPhotosView = ({ accessibleFolders, accessible, isSelect }) => {
   }
 
   return (
-    <div className="all-photos-container">
-      <div className="photos-grid">
+    <div
+      style={{ textAlign: "center", position: "relative", margin: "0 250px" }}
+    >
+      <Row gutter={[16, 16]} justify="center">
         {accessibleFolders.map((folder) =>
           accessible[folder].map((file) => (
-            <FileDisplay
-              key={`${folder}-${file}`}
-              folderName={folder}
-              fileName={file}
-              isSelect={isSelect}
-              resetSelection={toggle}
-            />
+            <Col key={file}>
+              <FileDisplay
+                key={`${folder}-${file}`}
+                folderName={folder}
+                fileName={file}
+                isSelect={isSelect}
+                resetSelection={toggle}
+              />
+            </Col>
           ))
         )}
+      </Row>
+      <div style={{ marginTop: 20 }}>
+        <ConfirmButton
+          resetSelection={handleReset}
+          handleConfirmation={handleConfirmation}
+          msg={isSelect ? "remove" : "select"}
+        />
       </div>
-      <ConfirmButton
-        resetSelection={handleReset}
-        handleConfirmation={handleConfirmation}
-        msg={isSelect ? "remove" : "select"}
-      />
     </div>
   );
 };
 
-export default SelectedPhotosView;
+export default MainPhotosView;

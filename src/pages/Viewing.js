@@ -17,7 +17,11 @@ export const Viewing = () => {
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState("");
   const [accessible, setAccessible] = useState("");
+  const [selectedAccessible, setSelectedAccessible] = useState("");
   const [accessibleFolders, setAccessibleFolders] = useState("");
+
+  // This is used to force a re-render after moving files. Probably not the best way to do it buuuuut
+  const [renderCallback, setRenderCallback] = useState("");
   const accessCode = user.code;
   const email = user.email;
   // make API call
@@ -31,6 +35,21 @@ export const Viewing = () => {
     const headers = { accesscode: user.code, email: user.email };
     const res = await API.getAccessibleFolders(headers);
     setAccessible(res);
+    const selected = Object.fromEntries(
+      Object.entries(res).map(([key, value]) => [
+        key,
+        value.filter((item) => item.includes("selected/")),
+      ])
+    );
+    const unselected = Object.fromEntries(
+      Object.entries(res).map(([key, value]) => [
+        key,
+        value.filter((item) => !item.includes("selected/")),
+      ])
+    );
+
+    setAccessible(unselected);
+    setSelectedAccessible(selected);
     setAccessibleFolders(Object.keys(res));
   };
 
@@ -39,14 +58,12 @@ export const Viewing = () => {
       getInfo();
     }
 
-    if (!accessibleFolders) {
-      getAccessibleFolders();
-    }
+    getAccessibleFolders();
 
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }, []);
+  }, [renderCallback]);
 
   if (loading) {
     return (
@@ -55,11 +72,11 @@ export const Viewing = () => {
       </div>
     );
   }
-
+  console.log(accessible);
   return (
     <div style={{ display: "flex" }}>
       {/* SideNav Container */}
-      <div style={{ width: "250px" }}>
+      <div style={sidebarStyles}>
         <SideNav
           onSelect={(selected) => {
             navigate(selected);
@@ -118,7 +135,13 @@ export const Viewing = () => {
         <Routes>
           <Route
             path="folders/:folderName/*"
-            element={<FolderView accessible={accessible} />}
+            element={
+              <FolderView
+                accessible={accessible}
+                selectedAccessible={selectedAccessible}
+                setRenderCallback={setRenderCallback}
+              />
+            }
           />
           <Route
             path="rem-photos"
@@ -128,6 +151,7 @@ export const Viewing = () => {
                 accessible={accessible}
                 accessibleFolders={accessibleFolders}
                 isSelect={false}
+                setRenderCallback={setRenderCallback}
               />
             }
           />
@@ -136,9 +160,10 @@ export const Viewing = () => {
             element={
               <MainPhotosView
                 key="selected-photos"
-                accessible={accessible}
+                accessible={selectedAccessible}
                 accessibleFolders={accessibleFolders}
                 isSelect={true}
+                setRenderCallback={setRenderCallback}
               />
             }
           />
@@ -146,4 +171,14 @@ export const Viewing = () => {
       </div>
     </div>
   );
+};
+
+// Add a new CSS class for the sidebar container
+const sidebarStyles = {
+  width: "250px", // Set a fixed or flexible width for the sidebar
+  height: "100%", // Make the sidebar fill the full height of the body
+  position: "fixed", // Fixed position to stay in place while scrolling
+  top: 0, // Align the top of the sidebar with the top of the viewport
+  left: 0, // Align the left of the sidebar with the left of the viewport
+  color: "#fff", // Set text color as needed
 };
