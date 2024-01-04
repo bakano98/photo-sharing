@@ -1,21 +1,54 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../api";
 
 const AuthContext = createContext();
 
-const def = { code: "admin", email: "98lawweijie@gmail.com", auth: true };
+// const def = { code: "admin", email: "98lawweijie@gmail.com", auth: true };
+const def = { code: "", email: "", auth: false };
 
 export const AuthWrapper = ({ children }) => {
   const [user, setUser] = useState(def);
+  const navigate = useNavigate();
+
+  const autoLogin = async () => {
+    if (user.auth) {
+      return;
+    }
+
+    const code = localStorage.getItem("accessCode");
+    const email = localStorage.getItem("email");
+
+    // Then we can just do the login routine
+    if (code && email) {
+      console.log("Attempting to automatically login...");
+      const success = await login(code, email);
+      if (success) {
+        navigate("/view");
+      } else {
+        console.log("Received invalid credentials!");
+        localStorage.removeItem("accessCode");
+        localStorage.removeItem("email");
+        navigate("/login");
+      }
+    }
+  };
+
+  useEffect(() => {
+    autoLogin();
+  }, [user]);
 
   const login = async (accessCode, email) => {
-    //TODO: Ensure that accessCode and email are being used for validation.
     // View permissions are based solely on their email. The accessCode will only allow them to login.
-    const data = { accessCode: accessCode, email: email };
+    const data = { code: accessCode, email: email };
+
     // Make API call
-    const response = await API.authAccessCode(data);
+    const response = await API.getUser(data);
     if (response.success) {
-      setUser({ code: accessCode, auth: true });
+      console.log("Setting localStorage");
+      localStorage.setItem("accessCode", accessCode);
+      localStorage.setItem("email", email);
+      setUser({ code: accessCode, email: email, auth: true });
     }
 
     return response.success;
