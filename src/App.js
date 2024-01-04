@@ -10,14 +10,15 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* public routes */}
-        <Route path="/" element={<Login />} />
-
         {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRoles={["user"]} />}>
           <Route path="/view/*" element={<Viewing />} />
           {/* All other files should be accessed from /view */}
         </Route>
+
+        {/* public routes */}
+        <Route index element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
         {/* catch all */}
         <Route path="*" element={<Missing />} />
