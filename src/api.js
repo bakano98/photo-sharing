@@ -11,7 +11,6 @@ const api = axios.create({
 
 const API = {
   getAccessibleFolders: async (headers) => {
-    console.log("a");
     try {
       const response = await api.get("/files/accessible", { headers });
       return response.data;
@@ -39,9 +38,9 @@ const API = {
     }
   },
   // Add more API calls as needed
-  authAccessCode: async (data) => {
+  authUser: async (data) => {
     try {
-      const response = await api.post("/auth", data);
+      const response = await api.post("/apis/getUser", data);
       return response.data;
     } catch (error) {
       throw error;
