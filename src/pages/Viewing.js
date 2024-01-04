@@ -13,9 +13,9 @@ const { Title } = Typography;
 
 export const Viewing = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [details, setDetails] = useState("");
+  const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [details, setDetails] = useState(false);
   const [accessible, setAccessible] = useState("");
   const [selectedAccessible, setSelectedAccessible] = useState("");
   const [accessibleFolders, setAccessibleFolders] = useState("");
@@ -121,6 +121,15 @@ export const Viewing = () => {
               </NavIcon>
               <NavText>My Selected Photos</NavText>
             </NavItem>
+            <NavItem eventKey="logout" onClick={() => logout()}>
+              <NavIcon>
+                <i
+                  className="fa fa-fw fa-home"
+                  style={{ fontSize: "1.75em" }}
+                />
+              </NavIcon>
+              <NavText>Logout</NavText>
+            </NavItem>
           </SideNav.Nav>
         </SideNav>
       </div>
@@ -130,7 +139,9 @@ export const Viewing = () => {
         style={{ marginLeft: "30px", display: "flex", flexDirection: "column" }}
       >
         {/* Title */}
-        <Title style={{ textAlign: "center" }}>Hello, {details.perfName}</Title>
+        <Title style={{ textAlign: "center" }}>
+          Hello, {details ? details.perfName : ""}
+        </Title>
 
         {/* View Content */}
         <Routes>
