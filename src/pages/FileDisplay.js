@@ -65,8 +65,8 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
       }}
     >
       <img
-        height="200"
-        width="300"
+        height="267"
+        width="400"
         src={imageURL}
         alt=""
         style={{ cursor: "pointer" }}

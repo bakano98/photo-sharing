@@ -63,6 +63,7 @@ export const Viewing = () => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
+    console.log("Refreshing!");
   }, [renderCallback]);
 
   if (loading) {
@@ -72,7 +73,7 @@ export const Viewing = () => {
       </div>
     );
   }
-  console.log(accessible);
+
   return (
     <div style={{ display: "flex" }}>
       {/* SideNav Container */}

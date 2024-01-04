@@ -36,7 +36,7 @@ const MainPhotosView = ({
       alert("Encountered an error - please try again.");
     }
     navigate("../");
-    setRenderCallback(true);
+    setRenderCallback(Math.random());
   };
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const MainPhotosView = ({
 
   return (
     <div
-      style={{ textAlign: "center", position: "relative", margin: "0 250px" }}
+      style={{ textAlign: "center", position: "relative", margin: "0 260px" }}
     >
       <Row gutter={[16, 16]} justify="center">
         {accessibleFolders.map((folder) =>
@@ -71,7 +71,7 @@ const MainPhotosView = ({
           ))
         )}
       </Row>
-      <div style={{ marginTop: 20 }}>
+      <div style={{ marginTop: 20, marginBottom: 20 }}>
         <ConfirmButton
           resetSelection={handleReset}
           handleConfirmation={handleConfirmation}
