@@ -10,20 +10,14 @@ const FormModal = () => {
 
   // This will make API call to add to MongoDB with the current form values.
   const onConfirm = async (values) => {
-    console.log("Confirmation received -- sending API call to backend");
-
-    // form.resetFields(); // to reset after subscribing.
     setVisibility(false);
     const data = {
       _id: values.perfName + values.email,
       perfName: values.perfName,
       email: values.email,
-      role: "user",
-      status: "pending",
     };
     // Send API call to backend
     const response = await API.addUser(data);
-    console.log(response);
     if (response.success) {
       // Redirect to new page later. This will look better. Look up React Routes
       alert(
@@ -40,6 +34,7 @@ const FormModal = () => {
         );
       }
     }
+    form.resetFields();
   };
 
   return (

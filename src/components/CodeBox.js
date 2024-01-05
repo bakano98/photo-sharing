@@ -13,11 +13,11 @@ const CodeBox = () => {
   const onFinish = async (values) => {
     const email = values.email;
     const accessCode = values.accessCode;
-    const success = await login(accessCode, email);
-    if (success) {
+    const resp = await login(accessCode, email);
+    if (resp.success) {
       navigate("/view");
     } else {
-      alert("Wrong access code provided.");
+      alert(resp.message);
     }
   };
 

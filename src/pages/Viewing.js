@@ -26,12 +26,11 @@ export const Viewing = () => {
   const email = user.email;
   // make API call
   const getInfo = async () => {
-    const res = await API.getUser({ code: accessCode, email: email });
+    const res = await API.authUser({ code: accessCode, email: email });
     setDetails(res.data);
   };
 
   const getAccessibleFolders = async () => {
-    // change to use email next time
     const headers = { accesscode: user.code, email: user.email };
     const res = await API.getAccessibleFolders(headers);
     setAccessible(res);

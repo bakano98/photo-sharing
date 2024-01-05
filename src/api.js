@@ -46,14 +46,6 @@ const API = {
       throw error;
     }
   },
-  getUser: async (data) => {
-    try {
-      const response = await api.post("/apis/getUser", data);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
   addUser: async (data) => {
     try {
       const response = await api.post("/apis/addUser", data);

@@ -43,7 +43,7 @@ export const AuthWrapper = ({ children }) => {
     const data = { code: accessCode, email: email };
 
     // Make API call
-    const response = await API.getUser(data);
+    const response = await API.authUser(data);
     if (response.success) {
       console.log("Setting localStorage");
       localStorage.setItem("accessCode", accessCode);
@@ -51,7 +51,7 @@ export const AuthWrapper = ({ children }) => {
       setUser({ code: accessCode, email: email, auth: true });
     }
 
-    return response.success;
+    return response;
   };
 
   const logout = () => {
