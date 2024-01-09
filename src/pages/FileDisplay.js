@@ -16,7 +16,7 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
       (!fileName.includes("jpg") && !fileName.includes("png")) ||
       filename === undefined
     ) {
-      console.log("Not an image -- skipping");
+      //console.log("Not an image -- skipping");
       return;
     }
     fetch(

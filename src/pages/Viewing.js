@@ -62,7 +62,7 @@ export const Viewing = () => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-    console.log("Refreshing!");
+    //console.log("Refreshing!");
   }, [renderCallback]);
 
   if (loading) {

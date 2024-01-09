@@ -36,7 +36,7 @@ const getJson = async (headers) => {
 const generateCode = async (headers) => {
   try {
     const res = await API.generateAccessCode(headers);
-    console.log(res);
+    //console.log(res);
     if (res.success) {
       alert("Successfully generated new access codes for all users.");
     } else {
@@ -48,7 +48,7 @@ const generateCode = async (headers) => {
 };
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const headers = { accesscode: user.code, email: user.email };
@@ -76,14 +76,23 @@ const AdminDashboard = () => {
       </div>
       <div>
         <Button
+          type="primary"
+          style={{ marginBottom: "10px" }}
+          onClick={() => navigate("user-perms")}
+        >
+          Update user permissions
+        </Button>
+      </div>
+      <div>
+        <Button
           style={{
             background: "#1890ff",
             color: "#fff",
             borderColor: "#1890ff",
           }}
-          onClick={() => navigate("user-perms")}
+          onClick={() => logout()}
         >
-          Update user permissions
+          Logout
         </Button>
       </div>
     </div>

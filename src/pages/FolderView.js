@@ -44,7 +44,7 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
     } else {
       alert("Encountered an error - please try again.");
     }
-    console.log("Setting renderCallback");
+    //console.log("Setting renderCallback");
     setRenderCallback(Math.random());
     navigate("../");
   };

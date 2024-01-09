@@ -20,13 +20,13 @@ export const AuthWrapper = ({ children }) => {
 
     // Then we can just do the login routine
     if (code && email) {
-      console.log("Attempting to automatically login...");
+      //console.log("Attempting to automatically login...");
       const resp = await login(code, email);
       if (resp.success) {
-        console.log(resp.redirect);
+        //console.log(resp.redirect);
         navigate(resp.redirect);
       } else {
-        console.log("Received invalid credentials!");
+        //console.log("Received invalid credentials!");
         localStorage.removeItem("accessCode");
         localStorage.removeItem("email");
         navigate("/login");
@@ -45,7 +45,7 @@ export const AuthWrapper = ({ children }) => {
     // Make API call
     const response = await API.authUser(data);
     if (response.success) {
-      console.log("Setting localStorage");
+      //console.log("Setting localStorage");
       localStorage.setItem("accessCode", accessCode);
       localStorage.setItem("email", email);
       setUser({ code: accessCode, email: email, auth: true });

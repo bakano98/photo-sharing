@@ -14,7 +14,7 @@ const CodeBox = () => {
     const email = values.email;
     const accessCode = values.accessCode;
     const resp = await login(accessCode, email);
-    console.log(resp);
+    //console.log(resp);
     if (resp.success) {
       navigate(resp.redirect);
     } else {

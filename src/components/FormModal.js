@@ -58,7 +58,7 @@ const FormModal = () => {
               onConfirm(values);
             })
             .catch((info) => {
-              console.log("Validate Failed:", info);
+              //console.log("Validate Failed:", info);
             });
         }}
       >

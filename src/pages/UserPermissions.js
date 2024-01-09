@@ -12,7 +12,7 @@ const UserPermissions = () => {
   const navigate = useNavigate();
 
   const handleConfirm = async (data) => {
-    console.log(data);
+    //console.log(data);
     const resp = await API.updateUserPermissions(data, {
       accesscode: user.code,
       email: user.email,

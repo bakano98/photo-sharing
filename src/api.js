@@ -32,7 +32,7 @@ const API = {
   moveFiles: async (data, headers) => {
     try {
       const response = await api.post("/files/move-files", data, { headers });
-      console.log(response);
+      //console.log(response);
       return response.data;
     } catch (error) {
       throw error;
@@ -43,6 +43,10 @@ const API = {
     try {
       const response = await api.post("/apis/authUser", data);
       const dat = response.data;
+      if (!dat.success) {
+        return dat;
+      }
+
       if (dat.data["role"] === "admin") {
         dat["redirect"] = "/admin";
       } else {
