@@ -2,7 +2,8 @@
 
 import axios from "axios";
 
-const baseURL = "http://localhost:8080"; // Adjust the base URL according to your API server
+// const baseURL = "http://localhost:8080"; // Adjust the base URL according to your API server
+const baseURL = "https://photo-sharing-vskw.onrender.com/";
 
 const api = axios.create({
   baseURL,
