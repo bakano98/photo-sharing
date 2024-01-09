@@ -21,9 +21,10 @@ export const AuthWrapper = ({ children }) => {
     // Then we can just do the login routine
     if (code && email) {
       console.log("Attempting to automatically login...");
-      const success = await login(code, email);
-      if (success) {
-        navigate("/view");
+      const resp = await login(code, email);
+      if (resp.success) {
+        console.log(resp.redirect);
+        navigate(resp.redirect);
       } else {
         console.log("Received invalid credentials!");
         localStorage.removeItem("accessCode");

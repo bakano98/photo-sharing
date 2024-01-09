@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthWrapper";
 
-const RequireAuth = ({ allowedRoles }) => {
+const RequireAuth = () => {
   const { user } = useAuth();
 
   const location = useLocation();
