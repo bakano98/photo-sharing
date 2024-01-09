@@ -13,15 +13,15 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
     const folder = folderName;
     const filename = isSelect ? fileName.split("/")[1] : fileName;
     if (
-      (!fileName.includes("jpg") && !fileName.includes("png")) ||
+      (!fileName.includes("JPG") && !fileName.includes("png")) ||
       filename === undefined
     ) {
-      //console.log("Not an image -- skipping");
+      console.log("Not an image -- skipping");
       return;
     }
     fetch(
-      // `http://localhost:8080/files/retrieveFile/${folder}/${isSelect}/${filename}`,
-      `https://photo-sharing-vskw.onrender.com/files/retrieveFile/${folder}/${isSelect}/${filename}`,
+      `http://localhost:8080/files/retrieveFile/${folder}/${isSelect}/${filename}`,
+      // `https://photo-sharing-vskw.onrender.com/files/retrieveFile/${folder}/${isSelect}/${filename}`,
       {
         method: "GET",
         headers: {
