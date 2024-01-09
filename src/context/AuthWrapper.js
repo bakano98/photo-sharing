@@ -4,7 +4,6 @@ import API from "../api";
 
 const AuthContext = createContext();
 
-// const def = { code: "admin", email: "98lawweijie@gmail.com", auth: true };
 const def = { code: "", email: "", auth: false };
 
 export const AuthWrapper = ({ children }) => {
