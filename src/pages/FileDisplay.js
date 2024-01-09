@@ -68,8 +68,8 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
       }}
     >
       <img
-        height={isDesktop ? "267" : "133.5"} // Adjusted height for non-desktop
-        width={isDesktop ? "400" : "200"} // Adjusted width for non-desktop
+        height={isDesktop ? "267" : "178"} // Adjusted height for non-desktop
+        width={isDesktop ? "400" : "267"} // Adjusted width for non-desktop
         src={imageURL}
         alt=""
         style={{ cursor: "pointer" }}

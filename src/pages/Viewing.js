@@ -6,6 +6,7 @@ import { Typography } from "antd";
 import { useAuth } from "../context/AuthWrapper";
 import API from "../api";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+import ClickOutside from "../components/ClickOutside";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import "../App.css";
 
@@ -19,6 +20,7 @@ export const Viewing = () => {
   const [accessible, setAccessible] = useState("");
   const [selectedAccessible, setSelectedAccessible] = useState("");
   const [accessibleFolders, setAccessibleFolders] = useState("");
+  const [expanded, setExpanded] = useState(false);
 
   // This is used to force a re-render after moving files. Probably not the best way to do it buuuuut
   const [renderCallback, setRenderCallback] = useState("");
@@ -77,60 +79,67 @@ export const Viewing = () => {
     <div style={{ display: "flex" }}>
       {/* SideNav Container */}
       <div style={sidebarStyles}>
-        <SideNav
-          onSelect={(selected) => {
-            navigate(selected);
-          }}
-        >
-          <SideNav.Toggle />
-          <SideNav.Nav defaultSelected="folders">
-            <NavItem eventKey="folders">
-              <NavIcon>
-                <i
-                  className="fa fa-fw fa-home"
-                  style={{ fontSize: "1.75em" }}
-                />
-              </NavIcon>
-              <NavText>Folders</NavText>
-              {accessibleFolders === "" ? (
-                <></>
-              ) : (
-                accessibleFolders.map((folderName) => (
-                  <NavItem key={folderName} eventKey={`folders/${folderName}`}>
-                    <NavText>{folderName}</NavText>
-                  </NavItem>
-                ))
-              )}
-            </NavItem>
-            <NavItem eventKey="rem-photos">
-              <NavIcon>
-                <i
-                  className="fa fa-fw fa-home"
-                  style={{ fontSize: "1.75em" }}
-                />
-              </NavIcon>
-              <NavText>My Remaining Photos</NavText>
-            </NavItem>
-            <NavItem eventKey="selected-photos">
-              <NavIcon>
-                <i
-                  className="fa fa-fw fa-home"
-                  style={{ fontSize: "1.75em" }}
-                />
-              </NavIcon>
-              <NavText>My Selected Photos</NavText>
-            </NavItem>
-            <NavItem eventKey="logout" onClick={() => logout()}>
-              <NavIcon>
-                <i
-                  className="fa fa-fw fa-home"
-                  style={{ fontSize: "1.75em" }}
-                />
-              </NavIcon>
-              <NavText>Logout</NavText>
-            </NavItem>
-          </SideNav.Nav>
-        </SideNav>
+        <ClickOutside onClickOutside={() => setExpanded(false)}>
+          <SideNav
+            expanded={expanded}
+            onToggle={() => setExpanded(!expanded)}
+            onSelect={(selected) => {
+              navigate(selected);
+            }}
+          >
+            <SideNav.Toggle />
+            <SideNav.Nav defaultSelected="folders">
+              <NavItem eventKey="folders">
+                <NavIcon>
+                  <i
+                    className="fa fa-fw fa-home"
+                    style={{ fontSize: "1.75em" }}
+                  />
+                </NavIcon>
+                <NavText>Folders</NavText>
+                {accessibleFolders === "" ? (
+                  <></>
+                ) : (
+                  accessibleFolders.map((folderName) => (
+                    <NavItem
+                      key={folderName}
+                      eventKey={`folders/${folderName}`}
+                    >
+                      <NavText>{folderName}</NavText>
+                    </NavItem>
+                  ))
+                )}
+              </NavItem>
+              <NavItem eventKey="rem-photos">
+                <NavIcon>
+                  <i
+                    className="fa fa-fw fa-home"
+                    style={{ fontSize: "1.75em" }}
+                  />
+                </NavIcon>
+                <NavText>My Remaining Photos</NavText>
+              </NavItem>
+              <NavItem eventKey="selected-photos">
+                <NavIcon>
+                  <i
+                    className="fa fa-fw fa-home"
+                    style={{ fontSize: "1.75em" }}
+                  />
+                </NavIcon>
+                <NavText>My Selected Photos</NavText>
+              </NavItem>
+              <NavItem eventKey="logout" onClick={() => logout()}>
+                <NavIcon>
+                  <i
+                    className="fa fa-fw fa-home"
+                    style={{ fontSize: "1.75em" }}
+                  />
+                </NavIcon>
+                <NavText>Logout</NavText>
+              </NavItem>
+            </SideNav.Nav>
+          </SideNav>
+        </ClickOutside>
       </div>
 
       {/* Main Content Container */}
