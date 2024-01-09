@@ -11,7 +11,7 @@ const CodeBox = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    const email = values.email;
+    const email = values.email.toLowerCase();
     const accessCode = values.accessCode;
     const resp = await login(accessCode, email);
     //console.log(resp);

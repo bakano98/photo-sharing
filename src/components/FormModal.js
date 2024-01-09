@@ -12,9 +12,9 @@ const FormModal = () => {
   const onConfirm = async (values) => {
     setVisibility(false);
     const data = {
-      _id: values.perfName + values.email,
+      _id: values.perfName + values.email.toLowerCase(),
       perfName: values.perfName,
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
     // Send API call to backend
     const response = await API.addUser(data);
