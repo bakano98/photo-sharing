@@ -50,6 +50,8 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
     setCheck(false);
   }, [resetSelection]);
 
+  const isDesktop = window.innerWidth > 768; // Adjust the breakpoint as needed
+
   return imageURL ? (
     <div
       style={{
@@ -66,8 +68,8 @@ const FileDisplay = ({ folderName, fileName, isSelect, resetSelection }) => {
       }}
     >
       <img
-        height="267"
-        width="400"
+        height={isDesktop ? "267" : "133.5"} // Adjusted height for non-desktop
+        width={isDesktop ? "400" : "200"} // Adjusted width for non-desktop
         src={imageURL}
         alt=""
         style={{ cursor: "pointer" }}
