@@ -83,6 +83,7 @@ const API = {
       throw error;
     }
   },
+
   // Generate new access code
   generateAccessCode: async (headers) => {
     try {
@@ -92,10 +93,6 @@ const API = {
       throw error;
     }
   },
-
-  // TODO: API for approving user, as well as a proper UI.
-  // Not necessary but I guess it's good to have...
-  // Approving users
 
   // Exporting photos (file names in JSON) to be edited.
   // We will process this in Python/Powershell and then use it to move from SD card to our local environment :)
