@@ -66,9 +66,7 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
   };
 
   return (
-    <div
-      style={{ textAlign: "center", position: "relative", margin: "0 260px" }}
-    >
+    <div style={{ textAlign: "center", position: "relative" }}>
       <Title level={2}>
         You are currently {!isSelected ? "SELECTING for" : "REMOVING from"}{" "}
         editting

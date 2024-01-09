@@ -53,9 +53,7 @@ const MainPhotosView = ({
   }
 
   return (
-    <div
-      style={{ textAlign: "center", position: "relative", margin: "0 260px" }}
-    >
+    <div style={{ textAlign: "center", position: "relative" }}>
       <Row gutter={[16, 16]} justify="center">
         {accessibleFolders.map((folder) =>
           accessible[folder].map((file) => (

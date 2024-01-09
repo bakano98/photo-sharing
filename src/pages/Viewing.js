@@ -135,7 +135,12 @@ export const Viewing = () => {
 
       {/* Main Content Container */}
       <div
-        style={{ marginLeft: "30px", display: "flex", flexDirection: "column" }}
+        style={{
+          marginLeft: "240px", // Adjusted margin to account for the sidebar width
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+        }}
       >
         {/* Title */}
         <Title style={{ textAlign: "center" }}>
@@ -186,7 +191,7 @@ export const Viewing = () => {
 
 // Add a new CSS class for the sidebar container
 const sidebarStyles = {
-  width: "250px", // Set a fixed or flexible width for the sidebar
+  width: "240px", // Set a fixed or flexible width for the sidebar
   height: "100%", // Make the sidebar fill the full height of the body
   position: "fixed", // Fixed position to stay in place while scrolling
   top: 0, // Align the top of the sidebar with the top of the viewport
