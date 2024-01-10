@@ -2,8 +2,8 @@
 
 import axios from "axios";
 
-// const baseURL = "http://localhost:8080"; // Adjust the base URL according to your API server
-const baseURL = "https://photo-sharing-vskw.onrender.com/";
+const baseURL = "http://localhost:8080"; // Adjust the base URL according to your API server
+// const baseURL = "https://photo-sharing-vskw.onrender.com/";
 
 const api = axios.create({
   baseURL,
@@ -75,7 +75,14 @@ const API = {
       throw error;
     }
   },
-
+  getDirectories: async (headers) => {
+    try {
+      const response = await api.get("/files/getDirectories", { headers });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   // Updating user permissions -- which folders they can access
   updateUserPermissions: async (data, headers) => {
     try {

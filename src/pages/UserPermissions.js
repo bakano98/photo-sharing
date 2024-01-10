@@ -9,6 +9,7 @@ const { Option } = Select;
 const UserPermissions = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState("");
+  const [folders, setFolders] = useState("");
   const navigate = useNavigate();
 
   const handleConfirm = async (data) => {
@@ -21,6 +22,14 @@ const UserPermissions = () => {
       alert(resp.message);
     } else {
       alert(resp.message);
+    }
+  };
+
+  const getFolders = async (headers) => {
+    const resp = await API.getDirectories(headers);
+
+    if (resp.success) {
+      setFolders([...resp.data]);
     }
   };
 
@@ -37,7 +46,11 @@ const UserPermissions = () => {
     if (!userData) {
       getData({ accesscode: user.code, email: user.email });
     }
-  }, [userData]);
+
+    if (!folders) {
+      getFolders({ accesscode: user.code, email: user.email });
+    }
+  }, []);
 
   const columns = [
     {
@@ -83,11 +96,13 @@ const UserPermissions = () => {
           }
           key={record.key}
         >
-          {userData.map((data) => (
-            <Option key={data.key} value={data.perfName}>
-              {data.perfName}
-            </Option>
-          ))}
+          {folders
+            ? folders.map((data, index) => (
+                <Option key={data + index} value={data}>
+                  {data}
+                </Option>
+              ))
+            : ""}
         </Select>
       ),
     },
