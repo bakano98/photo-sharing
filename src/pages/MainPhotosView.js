@@ -20,7 +20,7 @@ const MainPhotosView = ({
   const [toggle, setToggle] = useState(false);
   const { user } = useAuth();
 
-  const [maxFilesToShow, setMaxFilesToShow] = useState(10);
+  const [maxFilesToShow, setMaxFilesToShow] = useState(12);
   const [filesToDisplay, setFilesToDisplay] = useState([]);
   const [ref, inView] = useInView(); // Hook to determine if an element is in view
 
@@ -70,7 +70,7 @@ const MainPhotosView = ({
   };
 
   const increaseFilesToShow = () => {
-    setMaxFilesToShow((prevMaxFiles) => prevMaxFiles + 10);
+    setMaxFilesToShow((prevMaxFiles) => prevMaxFiles + 12);
   };
 
   useEffect(() => {
