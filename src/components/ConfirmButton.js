@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Space } from "antd";
 
-const ConfirmButton = ({ resetSelection, handleConfirmation, msg }) => {
+const ConfirmButton = ({ handleConfirmation, handleReset, msg }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -20,15 +20,34 @@ const ConfirmButton = ({ resetSelection, handleConfirmation, msg }) => {
 
   return (
     <Space>
-      <Button type="primary" onClick={resetSelection}>
-        Reset Selection
-      </Button>
-      <Button type="primary" onClick={showModal}>
-        Confirm Selection
-      </Button>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 20,
+          left: "15%", // Adjust the percentage as needed
+          zIndex: 1000,
+        }}
+      >
+        <Button type="primary" onClick={handleReset}>
+          Reset
+        </Button>
+      </div>
+
+      <div
+        style={{
+          position: "fixed",
+          bottom: 20,
+          right: "3%", // Adjust the percentage as needed
+          zIndex: 1000,
+        }}
+      >
+        <Button type="primary" onClick={showModal}>
+          Confirm
+        </Button>
+      </div>
       <Modal
         title="Confirmation"
-        open={isModalVisible}
+        visible={isModalVisible} // Corrected prop name from 'open' to 'visible'
         onOk={handleOk}
         onCancel={handleCancel}
       >

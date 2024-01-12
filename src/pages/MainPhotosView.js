@@ -6,7 +6,8 @@ import { useSelection } from "../context/SelectionWrapper";
 import ConfirmButton from "../components/ConfirmButton";
 import { useAuth } from "../context/AuthWrapper";
 import API from "../api";
-import "./PhotosView.css"; // Import the updated CSS file for styling
+import "./PhotosView.css";
+import { useInView } from "react-intersection-observer"; // Import the hook
 
 const MainPhotosView = ({
   accessibleFolders,
@@ -18,6 +19,24 @@ const MainPhotosView = ({
   const { selection, resetSelection } = useSelection();
   const [toggle, setToggle] = useState(false);
   const { user } = useAuth();
+
+  const [maxFilesToShow, setMaxFilesToShow] = useState(10);
+  const [filesToDisplay, setFilesToDisplay] = useState([]);
+  const [ref, inView] = useInView(); // Hook to determine if an element is in view
+
+  useEffect(() => {
+    let concatenatedFiles = [];
+
+    accessibleFolders.forEach((folder) => {
+      if (photos[folder]) {
+        concatenatedFiles = concatenatedFiles.concat(
+          photos[folder].map((file) => ({ folder, file }))
+        );
+      }
+    });
+
+    setFilesToDisplay(concatenatedFiles.slice(0, maxFilesToShow));
+  }, [accessibleFolders, photos, maxFilesToShow]);
 
   const handleConfirmation = async () => {
     const headers = { accesscode: user.code, email: user.email };
@@ -50,6 +69,16 @@ const MainPhotosView = ({
     resetSelection();
   };
 
+  const increaseFilesToShow = () => {
+    setMaxFilesToShow((prevMaxFiles) => prevMaxFiles + 10);
+  };
+
+  useEffect(() => {
+    if (inView) {
+      increaseFilesToShow();
+    }
+  }, [inView]);
+
   if (accessibleFolders === "") {
     return <Navigate to="/view" />;
   }
@@ -57,31 +86,26 @@ const MainPhotosView = ({
   return (
     <div style={{ textAlign: "center", position: "relative" }}>
       <Row gutter={[16, 16]} justify="center">
-        {accessibleFolders.map((folder) => {
-          if (photos[folder]) {
-            return photos[folder].map((file) => (
-              <Col key={file}>
-                <FileDisplay
-                  key={`${folder}-${file}`}
-                  folderName={folder}
-                  fileName={file}
-                  isSelect={isSelectionView}
-                  resetSelection={toggle}
-                />
-              </Col>
-            ));
-          } else {
-            return "";
-          }
-        })}
+        {filesToDisplay.map(({ folder, file }, index) => (
+          <Col key={`${folder}-${file}`}>
+            {index === filesToDisplay.length - 1 && (
+              <div ref={ref} style={{ height: 1 }} />
+            )}
+            <FileDisplay
+              key={`${folder}-${file}`}
+              folderName={folder}
+              fileName={file}
+              isSelect={isSelectionView}
+              resetSelection={toggle}
+            />
+          </Col>
+        ))}
       </Row>
-      <div style={{ marginTop: 20, marginBottom: 20 }}>
-        <ConfirmButton
-          resetSelection={handleReset}
-          handleConfirmation={handleConfirmation}
-          msg={isSelectionView ? "remove" : "select"}
-        />
-      </div>
+      <ConfirmButton
+        handleReset={handleReset}
+        handleConfirmation={handleConfirmation}
+        msg={isSelectionView ? "select" : "remove"}
+      />
     </div>
   );
 };
