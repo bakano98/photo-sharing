@@ -9,9 +9,13 @@ const { Title } = Typography;
 const getJson = async (headers) => {
   try {
     const res = await API.getSelectedPhotos(headers);
-
+    if (!res.success) {
+      alert("Something went wrong!");
+    }
     // Create a Blob from the JSON data
-    const blob = new Blob([JSON.stringify(res)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(res.data)], {
+      type: "application/json",
+    });
 
     // Create a download link
     const downloadLink = document.createElement("a");
