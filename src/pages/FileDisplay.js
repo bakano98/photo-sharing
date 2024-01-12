@@ -19,7 +19,7 @@ const FileDisplay = ({ folderName, fileName, resetSelection }) => {
     }
     fetch(
       // `http://localhost:8080/files/retrieveFile/${folderName}/${fileName}`,
-      `https://photo-sharing-vskw.onrender.com/files/retrieveFile/${folder}/${filename}`,
+      `https://photo-sharing-vskw.onrender.com/files/retrieveFile/${folderName}/${fileName}`,
       {
         method: "GET",
         headers: {
