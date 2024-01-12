@@ -178,7 +178,7 @@ export const Viewing = () => {
         }}
       >
         {/* Title */}
-        <Title style={{ textAlign: "center" }}>
+        <Title style={{ textAlign: "center", marginRight: "120px" }}>
           Hello, {details ? details.perfName : ""}
         </Title>
 
