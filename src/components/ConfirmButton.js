@@ -29,8 +29,7 @@ const ConfirmButton = ({
         style={{
           position: "fixed",
           bottom: 20,
-          left: "10%", // Adjust the percentage as needed
-          zIndex: 1000,
+          left: "15%", // Adjust the percentage as needed
         }}
       >
         <Button type="primary" onClick={handleReset}>
@@ -43,7 +42,6 @@ const ConfirmButton = ({
           position: "fixed",
           bottom: 20,
           right: "3%", // Adjust the percentage as needed
-          zIndex: 1000,
         }}
       >
         <Button type="primary" onClick={showModal}>
