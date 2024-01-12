@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FileDisplay from "./FileDisplay";
-import { Row, Col } from "antd";
+import { Row, Col, Typography } from "antd";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useSelection } from "../context/SelectionWrapper";
 import ConfirmButton from "../components/ConfirmButton";
@@ -8,6 +8,8 @@ import { useAuth } from "../context/AuthWrapper";
 import API from "../api";
 import "./PhotosView.css";
 import { useInView } from "react-intersection-observer"; // Import the hook
+
+const { Title } = Typography;
 
 const MainPhotosView = ({
   accessibleFolders,
@@ -85,6 +87,11 @@ const MainPhotosView = ({
 
   return (
     <div style={{ textAlign: "center", position: "relative" }}>
+      <Title level={2} style={{ margin: 10 }}>
+        {isSelectionView
+          ? "These are the photos that have not yet been selected"
+          : "Selected photos are automatically saved. You can select them again to remove them from editing"}
+      </Title>
       <Row gutter={[16, 16]} justify="center">
         {filesToDisplay.map(({ folder, file }, index) => (
           <Col key={`${folder}-${file}`}>

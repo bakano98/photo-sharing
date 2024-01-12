@@ -36,6 +36,8 @@ export const Viewing = () => {
   const [details, setDetails] = useState(false);
   const [unselected, setUnselected] = useState("");
   const [selected, setSelected] = useState("");
+  const [selectedLen, setSelectedLen] = useState(0);
+  const [accessible, setAccessible] = useState("");
   const [accessibleFolders, setAccessibleFolders] = useState("");
   const [expanded, setExpanded] = useState(false);
 
@@ -54,7 +56,7 @@ export const Viewing = () => {
     const res = await API.getAccessibleFolders(headers);
     const folders = Object.keys(res);
     setAccessibleFolders(folders);
-
+    setAccessible(res);
     // Make API call to MongoDB backend to get the selected photos
     // Make API calls to only the accessible folders
     const resp = await API.getSelected(headers);
@@ -68,6 +70,14 @@ export const Viewing = () => {
     const unselected = filterObj1(res, selected);
     setUnselected(unselected);
     setSelected(selected);
+    var len = 0;
+    for (const k in selected) {
+      if (selected.hasOwnProperty(k)) {
+        len += selected[k].length;
+      }
+    }
+
+    setSelectedLen(len);
   };
 
   useEffect(() => {
@@ -120,7 +130,7 @@ export const Viewing = () => {
                       key={folderName}
                       eventKey={`folders/${folderName}`}
                     >
-                      <NavText>{folderName}</NavText>
+                      <NavText>{`${folderName} (${accessible[folderName].length})`}</NavText>
                     </NavItem>
                   ))
                 )}
@@ -141,7 +151,7 @@ export const Viewing = () => {
                     style={{ fontSize: "1.75em" }}
                   />
                 </NavIcon>
-                <NavText>My Selected Photos</NavText>
+                <NavText>My Selected Photos ({selectedLen})</NavText>
               </NavItem>
               <NavItem eventKey="logout" onClick={() => logout()}>
                 <NavIcon>
