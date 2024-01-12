@@ -137,6 +137,24 @@ const API = {
       throw error;
     }
   },
+  mailUserCode: async (headers) => {
+    try {
+      const response = await api.post("/apis/send-emails", null, { headers });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  mailSingleUsercode: async (data, headers) => {
+    try {
+      const response = await api.post("/apis/send-single-email", data, {
+        headers,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default API;

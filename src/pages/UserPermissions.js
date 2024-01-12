@@ -106,7 +106,48 @@ const UserPermissions = () => {
         </Select>
       ),
     },
+    {
+      title: "Send Mail",
+      key: "sendMail",
+      render: (text, record) => (
+        <Button onClick={() => handleButtonClick(record)}>Send Email</Button>
+      ),
+    },
   ];
+
+  const handleButtonClick = async (record) => {
+    try {
+      const res = await API.mailSingleUsercode(
+        {
+          email: record.email,
+          perfName: record.perfName,
+        },
+        { accesscode: user.code, email: user.email }
+      );
+      if (res.success) {
+        alert(`Successfully sent email to ${record.perfName}!`);
+      }
+    } catch (error) {
+      alert("Failed to send email");
+      throw error;
+    }
+  };
+
+  const sendCode = async () => {
+    try {
+      const res = await API.mailUserCode({
+        accesscode: user.code,
+        email: user.email,
+      });
+      if (res.success) {
+        alert("Successfully sent all user's their access code.");
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChange = (selectedValues, record, field) => {
     setUserData((prevUserData) =>
@@ -165,6 +206,9 @@ const UserPermissions = () => {
           Confirm
         </Button>
       </div>
+      <Button type="primary" onClick={() => sendCode()}>
+        Send Mail to All Users
+      </Button>
     </div>
   );
 };

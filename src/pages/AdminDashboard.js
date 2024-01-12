@@ -56,6 +56,17 @@ const resetSelectedPhotos = async (headers) => {
     const res = await API.resetSelectedPhotos(headers);
     if (res.success) {
       alert("Successfully resetted all photo selections.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const sendCode = async (headers) => {
+  try {
+    const res = await API.mailUserCode(headers);
+    if (res.success) {
+      alert("Successfully sent all user's their access code.");
     } else {
       alert(res.message);
     }
@@ -63,6 +74,7 @@ const resetSelectedPhotos = async (headers) => {
     console.error(error);
   }
 };
+
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -90,6 +102,11 @@ const AdminDashboard = () => {
           Generate new access code
         </Button>
       </div>
+      {/* <div style={{ marginBottom: "10px" }}>
+        <Button type="primary" onClick={() => sendCode(headers)}>
+          Send access code to all users
+        </Button>
+      </div> */}
       <div>
         <Button
           type="primary"
