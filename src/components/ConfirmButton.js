@@ -47,7 +47,7 @@ const ConfirmButton = ({ handleConfirmation, handleReset, msg }) => {
       </div>
       <Modal
         title="Confirmation"
-        visible={isModalVisible} // Corrected prop name from 'open' to 'visible'
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
