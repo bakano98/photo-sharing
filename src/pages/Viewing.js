@@ -174,9 +174,6 @@ export const Viewing = () => {
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          "@media (maxWidth: 768px)": {
-            marginLeft: 0,
-          },
         }}
       >
         {/* Title */}
@@ -235,8 +232,4 @@ const sidebarStyles = {
   left: 0,
   color: "#fff",
   transition: "width 0.3s",
-
-  "@media (maxWidth: 768px)": {
-    width: "60px",
-  },
 };
