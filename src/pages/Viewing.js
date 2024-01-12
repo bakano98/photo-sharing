@@ -174,6 +174,9 @@ export const Viewing = () => {
           display: "flex",
           flexDirection: "column",
           flex: 1,
+          "@media (maxWidth: 768px)": {
+            marginLeft: 0,
+          },
         }}
       >
         {/* Title */}
@@ -225,10 +228,15 @@ export const Viewing = () => {
 
 // Add a new CSS class for the sidebar container
 const sidebarStyles = {
-  width: "240px", // Set a fixed or flexible width for the sidebar
-  height: "100%", // Make the sidebar fill the full height of the body
-  position: "fixed", // Fixed position to stay in place while scrolling
-  top: 0, // Align the top of the sidebar with the top of the viewport
-  left: 0, // Align the left of the sidebar with the left of the viewport
-  color: "#fff", // Set text color as needed
+  width: "240px",
+  height: "100%",
+  position: "fixed",
+  top: 0,
+  left: 0,
+  color: "#fff",
+  transition: "width 0.3s",
+
+  "@media (maxWidth: 768px)": {
+    width: "60px",
+  },
 };
