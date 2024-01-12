@@ -112,6 +112,7 @@ const MainPhotosView = ({
         handleReset={handleReset}
         handleConfirmation={handleConfirmation}
         msg={isSelectionView ? "select" : "remove"}
+        okButtonMsg={isSelectionView ? "Confirm" : "Remove"}
       />
     </div>
   );

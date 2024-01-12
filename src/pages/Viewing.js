@@ -170,7 +170,7 @@ export const Viewing = () => {
       {/* Main Content Container */}
       <div
         style={{
-          marginLeft: "240px", // Adjusted margin to account for the sidebar width
+          marginLeft: "120px", // Adjusted margin to account for the sidebar width
           display: "flex",
           flexDirection: "column",
           flex: 1,
@@ -178,7 +178,7 @@ export const Viewing = () => {
         }}
       >
         {/* Title */}
-        <Title style={{ textAlign: "center", marginRight: "120px" }}>
+        <Title style={{ textAlign: "center" }}>
           Hello, {details ? details.perfName : ""}
         </Title>
 

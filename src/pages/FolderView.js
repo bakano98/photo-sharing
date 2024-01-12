@@ -109,6 +109,7 @@ const FolderView = ({ unselected, selected, setRenderCallback }) => {
         handleReset={handleReset}
         handleConfirmation={handleConfirmation}
         msg={isSelectionView ? "select" : "remove"}
+        okButtonMsg={isSelectionView ? "Confirm" : "Remove"}
       />
     </div>
   );
