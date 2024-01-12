@@ -174,6 +174,7 @@ export const Viewing = () => {
           display: "flex",
           flexDirection: "column",
           flex: 1,
+          zIndex: 0,
         }}
       >
         {/* Title */}
@@ -232,4 +233,5 @@ const sidebarStyles = {
   left: 0,
   color: "#fff",
   transition: "width 0.3s",
+  zIndex: 1,
 };

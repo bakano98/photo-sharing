@@ -9,20 +9,15 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 10px;
-  max-height: calc(200px * 5); /* Maximum height for 5 rows, adjust as needed */
-  overflow-y: auto; /* Add a vertical scrollbar if the content overflows */
 }
 
 .photos-grid > * {
   margin: 5px; /* Add margin between photos */
-  flex-basis: calc(20% - 10px); /* Adjust the percentage width as needed */
-  max-width: calc(20% - 10px); /* Adjust the max-width as needed */
 }
 
-/* Adjust the percentage width and max-width based on your design */
-@media (max-width: 768px) {
-  .photos-grid > * {
-    flex-basis: calc(33.33% - 10px); /* Adjust for smaller screens */
-    max-width: calc(33.33% - 10px); /* Adjust for smaller screens */
-  }
+.photos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: calc(200px * 5); /* Maximum height for 5 rows, adjust as needed */
+  overflow-y: auto; /* Add a vertical scrollbar if the content overflows */
 }
