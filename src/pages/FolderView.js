@@ -16,7 +16,7 @@ const FolderView = ({ unselected, selected, setRenderCallback }) => {
   const [toggle, setToggle] = useState(false);
   const [isSelectionView, setIsSelectionView] = useState(true);
   const [display, setDisplay] = useState(unselected);
-  const [numberOfFiles, setNumberOfFiles] = useState(10);
+  const [numberOfFiles, setNumberOfFiles] = useState(12);
   const { user } = useAuth();
   const [ref, inView] = useInView();
   const bottomBoundaryRef = useRef(null);
@@ -33,7 +33,7 @@ const FolderView = ({ unselected, selected, setRenderCallback }) => {
   useEffect(() => {
     if (inView) {
       // Load more files when the bottom boundary is in view
-      setNumberOfFiles((prevCount) => prevCount + 10);
+      setNumberOfFiles((prevCount) => prevCount + 12);
     }
   }, [inView]);
 
