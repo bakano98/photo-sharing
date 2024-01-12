@@ -47,6 +47,18 @@ const generateCode = async (headers) => {
   }
 };
 
+const resetSelectedPhotos = async (headers) => {
+  try {
+    const res = await API.resetSelectedPhotos(headers);
+    if (res.success) {
+      alert("Successfully resetted all photo selections.");
+    } else {
+      alert(res.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -81,6 +93,15 @@ const AdminDashboard = () => {
           onClick={() => navigate("user-perms")}
         >
           Update user permissions
+        </Button>
+      </div>
+      <div>
+        <Button
+          type="primary"
+          style={{ marginBottom: "10px" }}
+          onClick={() => resetSelectedPhotos(headers)}
+        >
+          Reset Selected Photos
         </Button>
       </div>
       <div>

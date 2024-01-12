@@ -12,13 +12,30 @@ import "../App.css";
 
 const { Title } = Typography;
 
+// Function to filter items from obj1 based on obj2
+const filterObj1 = (obj1, obj2) => {
+  const result = {};
+
+  for (const key in obj1) {
+    if (Object.prototype.hasOwnProperty.call(obj1, key)) {
+      // Check if obj2 has the same key, otherwise, set an empty array
+      const obj2Array = obj2[key] || [];
+
+      // Filter items from obj1[key] based on obj2Array
+      result[key] = obj1[key].filter((item) => !obj2Array.includes(item));
+    }
+  }
+
+  return result;
+};
+
 export const Viewing = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState(false);
-  const [accessible, setAccessible] = useState("");
-  const [selectedAccessible, setSelectedAccessible] = useState("");
+  const [unselected, setUnselected] = useState("");
+  const [selected, setSelected] = useState("");
   const [accessibleFolders, setAccessibleFolders] = useState("");
   const [expanded, setExpanded] = useState(false);
 
@@ -35,23 +52,22 @@ export const Viewing = () => {
   const getAccessibleFolders = async () => {
     const headers = { accesscode: user.code, email: user.email };
     const res = await API.getAccessibleFolders(headers);
-    setAccessible(res);
-    const selected = Object.fromEntries(
-      Object.entries(res).map(([key, value]) => [
-        key,
-        value.filter((item) => item.includes("selected/")),
-      ])
-    );
-    const unselected = Object.fromEntries(
-      Object.entries(res).map(([key, value]) => [
-        key,
-        value.filter((item) => !item.includes("selected/")),
-      ])
-    );
+    const folders = Object.keys(res);
+    setAccessibleFolders(folders);
 
-    setAccessible(unselected);
-    setSelectedAccessible(selected);
-    setAccessibleFolders(Object.keys(res));
+    // Make API call to MongoDB backend to get the selected photos
+    // Make API calls to only the accessible folders
+    const resp = await API.getSelected(headers);
+
+    if (!resp.success) {
+      console.log("Something went wrong");
+      return;
+    }
+    const selected = resp.data;
+    delete selected._id;
+    const unselected = filterObj1(res, selected);
+    setUnselected(unselected);
+    setSelected(selected);
   };
 
   useEffect(() => {
@@ -162,8 +178,8 @@ export const Viewing = () => {
             path="folders/:folderName/*"
             element={
               <FolderView
-                accessible={accessible}
-                selectedAccessible={selectedAccessible}
+                unselected={unselected}
+                selected={selected}
                 setRenderCallback={setRenderCallback}
               />
             }
@@ -173,9 +189,9 @@ export const Viewing = () => {
             element={
               <MainPhotosView
                 key="rem-photos"
-                accessible={accessible}
+                photos={unselected}
                 accessibleFolders={accessibleFolders}
-                isSelect={false}
+                isSelectionView={true}
                 setRenderCallback={setRenderCallback}
               />
             }
@@ -185,9 +201,9 @@ export const Viewing = () => {
             element={
               <MainPhotosView
                 key="selected-photos"
-                accessible={selectedAccessible}
+                photos={selected}
                 accessibleFolders={accessibleFolders}
-                isSelect={true}
+                isSelectionView={false}
                 setRenderCallback={setRenderCallback}
               />
             }

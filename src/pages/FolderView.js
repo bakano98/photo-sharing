@@ -2,49 +2,49 @@ import React, { useState, useEffect } from "react";
 import { Typography, Button, Row, Col } from "antd";
 import { useNavigate, Navigate } from "react-router-dom";
 import FileDisplay from "./FileDisplay";
-import ConfirmButton from "../components/ConfirmButton";
-import API from "../api";
-import { useSelection } from "../context/SelectionWrapper";
 import { useAuth } from "../context/AuthWrapper";
+import ConfirmButton from "../components/ConfirmButton";
+import { useSelection } from "../context/SelectionWrapper";
+import API from "../api";
 
 const { Title } = Typography;
 
 // setRenderCallback is here in case we want to allow for choosing photos here. By right, we should.
-const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
+const FolderView = ({ unselected, selected, setRenderCallback }) => {
   const navigate = useNavigate();
   const { selection, resetSelection } = useSelection();
   const [toggle, setToggle] = useState(false);
+  const [isSelectionView, setIsSelectionView] = useState(true);
+  const [display, setDisplay] = useState(unselected);
   const { user } = useAuth();
-  const [isSelected, setIsSelected] = useState(false);
-  const [display, setDisplay] = useState(accessible);
 
   useEffect(() => {
-    if (isSelected) {
-      setDisplay(selectedAccessible);
+    if (isSelectionView) {
+      setDisplay(unselected);
     } else {
-      setDisplay(accessible);
+      setDisplay(selected);
     }
     resetSelection();
-  }, [isSelected]);
+  }, [isSelectionView]);
 
   const handleConfirmation = async () => {
+    const headers = { accesscode: user.code, email: user.email };
     if (selection.length <= 0) {
       alert("Please select 1 or more photos!");
       return;
     }
 
-    const headers = { accesscode: user.code, email: user.email };
-    const data = { isSelected: isSelected, selection: selection };
-    const resp = await API.moveFiles(data, headers);
-
-    if (resp.success) {
-      isSelected
-        ? alert("Successfully removed from Selected Photos")
-        : alert("Successfully moved to Selected Photos");
+    if (isSelectionView) {
+      const res = await API.addSelectedPhotos(selection, headers);
+      if (res.success) {
+        alert("Successfully added photos to edit list!");
+      }
     } else {
-      alert("Encountered an error - please try again.");
+      const res = await API.removeSelectedPhotos(selection, headers);
+      if (res.success) {
+        alert("Successfully removed photos from edit list!");
+      }
     }
-    //console.log("Setting renderCallback");
     setRenderCallback(Math.random());
     navigate("../");
   };
@@ -54,7 +54,7 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
     resetSelection();
   };
 
-  if (accessible === "") {
+  if (display === "") {
     return <Navigate to="/view" />;
   }
 
@@ -62,13 +62,13 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
   const folderName = currentRoute.split("/").pop();
 
   const toggleSelection = () => {
-    setIsSelected(!isSelected);
+    setIsSelectionView(!isSelectionView);
   };
 
   return (
     <div style={{ textAlign: "center", position: "relative" }}>
       <Title level={2}>
-        You are currently {!isSelected ? "SELECTING for" : "REMOVING from"}{" "}
+        You are currently {isSelectionView ? "SELECTING for" : "REMOVING from"}{" "}
         editting
       </Title>
       <Button type="primary" onClick={() => toggleSelection()}>
@@ -83,7 +83,6 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
                   <FileDisplay
                     folderName={folderName}
                     fileName={file}
-                    isSelect={isSelected}
                     resetSelection={toggle}
                   />
                 </Col>
@@ -95,7 +94,7 @@ const FolderView = ({ accessible, selectedAccessible, setRenderCallback }) => {
         <ConfirmButton
           resetSelection={handleReset}
           handleConfirmation={handleConfirmation}
-          msg={isSelected ? "remove" : "select"}
+          msg={isSelectionView ? "select" : "remove"}
         />
       </div>
     </div>

@@ -12,6 +12,7 @@ const api = axios.create({
 
 const API = {
   getAccessibleFolders: async (headers) => {
+    // Returns Object with { Folder : ["photos"] } mapping.
     try {
       const response = await api.get("/files/accessible", { headers });
       return response.data;
@@ -19,20 +20,11 @@ const API = {
       throw error;
     }
   },
-  getAccessibleAndSelectedPhotos: async (headers) => {
+  getSelected: async (headers) => {
     try {
-      const response = await api.get("/files/accessibleSelectedPhotos", {
-        headers,
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-  moveFiles: async (data, headers) => {
-    try {
-      const response = await api.post("/files/move-files", data, { headers });
-      //console.log(response);
+      // Passed data must contain the folders that they can access.
+      // Then, we return
+      const response = await api.get("/files/get-selected", { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -110,6 +102,36 @@ const API = {
   getSelectedPhotos: async (headers) => {
     try {
       const response = await api.get("/files/selected-photos", { headers });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  addSelectedPhotos: async (data, headers) => {
+    try {
+      const response = await api.post("/files/add-selection", data, {
+        headers,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  removeSelectedPhotos: async (data, headers) => {
+    try {
+      const response = await api.post("/files/remove-selection", data, {
+        headers,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  resetSelectedPhotos: async (headers) => {
+    try {
+      const response = await api.post("/files/reset-selections", null, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;
